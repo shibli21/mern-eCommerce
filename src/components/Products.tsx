@@ -1,3 +1,4 @@
+import NextLink from "next/link";
 import {
   Box,
   ChakraProps,
@@ -5,6 +6,7 @@ import {
   Grid,
   Heading,
   Image,
+  Link,
   Text,
 } from "@chakra-ui/core";
 import React from "react";
@@ -35,10 +37,12 @@ const Products = (props: ChakraProps) => {
             border="1px solid #999"
             boxShadow="rgba(149, 157, 165, 0.2) 0px 8px 24px"
           >
-            <Image rounded="md" src={product.image} />
-            <Text mt={2} fontSize="lg" fontWeight="semibold" lineHeight="short">
-              {product.name}
-            </Text>
+            <Image rounded="md" mb={2} src={product.image} />
+            <NextLink href="/product/[id]" as={`/product/${product._id}`}>
+              <Link fontSize="lg" fontWeight="semibold" lineHeight="short">
+                {product.name}
+              </Link>
+            </NextLink>
             <Ratings value={product.rating} numReviews={product.numReviews} />
             <Text
               mt={2}

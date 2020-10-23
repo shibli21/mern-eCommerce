@@ -9,10 +9,13 @@ import {
   Flex,
   Heading,
   Stack,
+  Link,
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/core";
+import NextLink from "next/link";
 import React from "react";
+import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { DarkModeSwitch } from "./DarkModeSwitch";
 import MenuItems from "./MenuItems";
 
@@ -27,8 +30,30 @@ const Navbar = (props: Props) => {
       <MenuItems>
         <DarkModeSwitch />
       </MenuItems>
-      <MenuItems>Cart</MenuItems>
-      <MenuItems>Sign in</MenuItems>
+      <MenuItems>
+        <NextLink href="/cart">
+          <Flex
+            align="center"
+            as={Link}
+            _hover={{ textDecoration: "none", color: "GrayText" }}
+          >
+            <Box as={FaShoppingCart} mr={2} />
+            cart
+          </Flex>
+        </NextLink>
+      </MenuItems>
+      <MenuItems>
+        <NextLink href="/signin">
+          <Flex
+            align="center"
+            as={Link}
+            _hover={{ textDecoration: "none", color: "GrayText" }}
+          >
+            <Box as={FaUser} mr={2} />
+            sign in
+          </Flex>
+        </NextLink>
+      </MenuItems>
     </>
   );
 
@@ -46,7 +71,7 @@ const Navbar = (props: Props) => {
       >
         <Flex align="center" mr={5}>
           <Heading as="h1" size="lg" letterSpacing={".1rem"}>
-            SHOP
+            <NextLink href="/">SHOP</NextLink>
           </Heading>
         </Flex>
 

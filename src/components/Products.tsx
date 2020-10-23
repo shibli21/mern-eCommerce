@@ -1,15 +1,16 @@
 import {
-  Badge,
-  Text,
-  Image,
   Box,
-  Flex,
-  Heading,
   ChakraProps,
+  Flex,
   Grid,
+  Heading,
+  Image,
+  Text,
 } from "@chakra-ui/core";
 import React from "react";
 import products from "../../products";
+import { MdStar } from "react-icons/md";
+import Ratings from "./Ratings";
 
 const Products = (props: ChakraProps) => {
   return (
@@ -38,11 +39,7 @@ const Products = (props: ChakraProps) => {
             <Text mt={2} fontSize="lg" fontWeight="semibold" lineHeight="short">
               {product.name}
             </Text>
-            <Flex mt={2} align="center">
-              <Text ml={1} fontSize="sm">
-                <b>4.84</b> (190)
-              </Text>
-            </Flex>
+            <Ratings value={product.rating} numReviews={product.numReviews} />
             <Text
               mt={2}
               fontSize="2xl"

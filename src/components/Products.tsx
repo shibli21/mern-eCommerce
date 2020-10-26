@@ -1,20 +1,29 @@
+import { Box, Grid, Heading, Image, Link, Text } from "@chakra-ui/core";
+import axios from "axios";
 import NextLink from "next/link";
-import {
-  Box,
-  ChakraProps,
-  Flex,
-  Grid,
-  Heading,
-  Image,
-  Link,
-  Text,
-} from "@chakra-ui/core";
 import React from "react";
-import products from "../../products";
-import { MdStar } from "react-icons/md";
+import { useQuery } from "react-query";
+import { Product } from "../types/products";
+import Loading from "./Loading";
 import Ratings from "./Ratings";
 
-const Products = (props: ChakraProps) => {
+const fetchProducts = async () => {
+  const { data } = await axios.get("http://localhost:5000/api/products");
+  return data;
+};
+
+const Products = () => {
+  const { isLoading, error, data, isError } = useQuery<Product[], Error>(
+    "products",
+    fetchProducts
+  );
+
+  if (isLoading) return <Loading />;
+
+  if (isError) {
+    return <span>Error: {error?.message}</span>;
+  }
+
   return (
     <>
       <Heading textTransform="uppercase" letterSpacing={1.5}>
@@ -29,7 +38,7 @@ const Products = (props: ChakraProps) => {
         ]}
         gridGap={10}
       >
-        {products.map((product) => (
+        {data?.map((product) => (
           <Box
             key={product._id}
             p={4}

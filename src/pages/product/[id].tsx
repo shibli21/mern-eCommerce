@@ -1,27 +1,30 @@
-import {
-  Box,
-  Button,
-  ChakraProps,
-  Divider,
-  Grid,
-  Image,
-  Text,
-} from "@chakra-ui/core";
+import { Box, Button, Divider, Grid, Image, Text } from "@chakra-ui/core";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import { FaShoppingCart } from "react-icons/fa";
-import products from "../../../products";
+import { useQuery } from "react-query";
 import { Container } from "../../components/Container";
+import Loading from "../../components/Loading";
 import { Main } from "../../components/Main";
 import Ratings from "../../components/Ratings";
+import { Product as SingleProduct } from "../../types/products";
 
-interface Props extends ChakraProps {}
-
-const Product = (props: Props) => {
+const Product = () => {
   const router = useRouter();
-  const product = products.find((p) => p._id === router.query.id);
-  if (!product) {
-    return <Box>no product</Box>;
+  const { isLoading, error, data: product, isError } = useQuery<
+    SingleProduct,
+    Error
+  >(
+    "product",
+    async () =>
+      await fetch(
+        `http://localhost:5000/api/products/${router.query.id}`
+      ).then((res) => res.json())
+  );
+
+  if (isLoading) return <Loading />;
+
+  if (isError) {
+    return <span>Error: {error?.message}</span>;
   }
 
   return (
@@ -49,8 +52,8 @@ const Product = (props: Props) => {
             <Divider />
             <Box px={4} py={2}>
               <Ratings
-                value={product?.rating}
-                numReviews={product?.numReviews}
+                value={product!.rating}
+                numReviews={product!.numReviews}
               />
             </Box>
             <Divider />

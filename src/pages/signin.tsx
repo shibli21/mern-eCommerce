@@ -38,7 +38,7 @@ const signin = (props: Props) => {
 
   return (
     <Container>
-      <Main>
+      <Main minH="100vh">
         <Flex align="center" justify="center">
           <Formik
             initialValues={{ email: "", password: "" }}
@@ -58,7 +58,7 @@ const signin = (props: Props) => {
                     Login
                   </Button>
                   <Button mt={4} ml={4} type="button" colorScheme="teal">
-                    <NextLink href="/forgot-password">Forgot Password</NextLink>
+                    <NextLink href="/register">Register</NextLink>
                   </Button>
                 </Box>
               </Form>

@@ -2,10 +2,12 @@ import { Box, Button, Flex } from "@chakra-ui/core";
 import axios from "axios";
 import { Form, Formik } from "formik";
 import NextLink from "next/link";
-import { queryCache, useMutation } from "react-query";
+import { useRouter } from "next/router";
+import { useMutation } from "react-query";
 import { Container } from "../components/Container";
 import InputField from "../components/InputField";
 import { Main } from "../components/Main";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const login = ({ email, password }: any) => {
   return axios.post(
@@ -24,17 +26,16 @@ const login = ({ email, password }: any) => {
 
 interface Props {}
 
-const signin = (props: Props) => {
-  const [mutate, { data }] = useMutation(login, {
+const SignIn = (props: Props) => {
+  const [, setUserInfo] = useLocalStorage("userInfo", null);
+  const router = useRouter();
+
+  const [mutate] = useMutation(login, {
     onSuccess: (data) => {
-      queryCache.setQueryData(["login"], data);
-      localStorage.setItem("userInfo", JSON.stringify(data.data));
+      setUserInfo(data.data);
+      router.push("/");
     },
   });
-
-  const loginData = queryCache.getQueryData("login");
-
-  console.log(`loginData`, loginData);
 
   return (
     <Container>
@@ -70,4 +71,4 @@ const signin = (props: Props) => {
   );
 };
 
-export default signin;
+export default SignIn;

@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -8,14 +9,20 @@ import {
   DrawerOverlay,
   Flex,
   Heading,
-  Stack,
   Link,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Stack,
+  Text,
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/core";
 import NextLink from "next/link";
 import React from "react";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
+import useLocalStorage from "../hooks/useLocalStorage";
 import { DarkModeSwitch } from "./DarkModeSwitch";
 import MenuItems from "./MenuItems";
 
@@ -24,37 +31,47 @@ interface Props {}
 const Navbar = (props: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode } = useColorMode();
+  const [userInfo, setUserInfo] = useLocalStorage("userInfo", null);
 
   const NavLinks = (
-    <>
+    <Flex align="center">
       <MenuItems>
         <DarkModeSwitch />
       </MenuItems>
       <MenuItems>
         <NextLink href="/cart">
-          <Flex
-            align="center"
-            as={Link}
-            _hover={{ textDecoration: "none", color: "GrayText" }}
-          >
+          <Flex align="center" as={Link} _hover={{ textDecoration: "none", color: "GrayText" }}>
             <Box as={FaShoppingCart} mr={2} />
             cart
           </Flex>
         </NextLink>
       </MenuItems>
       <MenuItems>
-        <NextLink href="/signin">
-          <Flex
-            align="center"
-            as={Link}
-            _hover={{ textDecoration: "none", color: "GrayText" }}
-          >
-            <Box as={FaUser} mr={2} />
-            sign in
-          </Flex>
-        </NextLink>
+        <Box>
+          {userInfo ? (
+            <Flex align="center" as={Link} _hover={{ textDecoration: "none", color: "GrayText" }}>
+              <Box as={FaUser} mr={2} />
+              <Menu>
+                <MenuButton as={Button} colorScheme="pink">
+                  {userInfo.name}
+                </MenuButton>
+                <MenuList>
+                  <MenuItem>{userInfo.name}</MenuItem>
+                  <MenuItem onClick={() => setUserInfo(null)}>logout</MenuItem>
+                </MenuList>
+              </Menu>
+            </Flex>
+          ) : (
+            <NextLink href="/signin">
+              <Flex align="center" as={Link} _hover={{ textDecoration: "none", color: "GrayText" }}>
+                <Box as={FaUser} mr={2} />
+                <Text>sign in</Text>
+              </Flex>
+            </NextLink>
+          )}
+        </Box>
       </MenuItems>
-    </>
+    </Flex>
   );
 
   return (

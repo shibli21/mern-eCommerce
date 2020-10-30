@@ -50,9 +50,8 @@ const Navbar = (props: Props) => {
         <Box>
           {userInfo ? (
             <Flex align="center" as={Link} _hover={{ textDecoration: "none", color: "GrayText" }}>
-              <Box as={FaUser} mr={2} />
               <Menu>
-                <MenuButton as={Button} colorScheme="pink">
+                <MenuButton as={Button} colorScheme="pink" borderRadius={0} leftIcon={<Box as={FaUser} mr={2} />}>
                   {userInfo.name}
                 </MenuButton>
                 <MenuList>

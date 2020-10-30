@@ -1,4 +1,4 @@
-import { Box, Button, Flex } from "@chakra-ui/core";
+import { Box, Button, Flex, Text } from "@chakra-ui/core";
 import axios from "axios";
 import { Form, Formik } from "formik";
 import NextLink from "next/link";
@@ -41,30 +41,33 @@ const SignIn = (props: Props) => {
     <Container>
       <Main minH="100vh">
         <Flex align="center" justify="center">
-          <Formik
-            initialValues={{ email: "", password: "" }}
-            onSubmit={async (values) => {
-              console.log(values);
-              await mutate({ email: values.email, password: values.password });
-            }}
-          >
-            {({ isSubmitting }) => (
-              <Form>
-                <Box minW="400px">
-                  <InputField name="email" placeholder="email" label="Email" />
+          <Box minW="400px">
+            <Text fontSize="3xl" letterSpacing={1.5} fontWeight="semibold" mb={4}>
+              SIGN IN
+            </Text>
+            <Formik
+              initialValues={{ email: "", password: "" }}
+              onSubmit={async (values) => {
+                console.log(values);
+                await mutate({ email: values.email, password: values.password });
+              }}
+            >
+              {({ isSubmitting }) => (
+                <Form>
+                  <InputField name="email" placeholder="Enter email" label="Email" />
                   <Box mt={4}>
-                    <InputField name="password" placeholder="password" label="Password" />
+                    <InputField name="password" placeholder="Enter password" label="Password" />
                   </Box>
-                  <Button mt={4} type="submit" isLoading={isSubmitting} colorScheme="blue">
+                  <Button mt={4} type="submit" isLoading={isSubmitting} colorScheme="blue" borderRadius={0}>
                     Login
                   </Button>
-                  <Button mt={4} ml={4} type="button" colorScheme="teal">
+                  <Button mt={4} ml={4} type="button" colorScheme="teal" borderRadius={0}>
                     <NextLink href="/register">Register</NextLink>
                   </Button>
-                </Box>
-              </Form>
-            )}
-          </Formik>
+                </Form>
+              )}
+            </Formik>
+          </Box>
         </Flex>
       </Main>
     </Container>
